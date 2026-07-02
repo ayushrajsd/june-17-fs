@@ -2,6 +2,20 @@
   box-sizing: border-box;
 }
 
+html {
+  font-size: 20px; /** 1rem = 16px  2rem 3rem 0.5rem */
+}
+
+/* vw and vh 
+vw - viewport width
+vh - viewport height
+1vh = 1% of the viewport height
+vw = 1% of the viewport width
+
+1200px 
+50vw
+*/
+
 :root {
   /* Colors */
   --color-primary: #2563eb;
@@ -21,20 +35,36 @@
   --color-status-text: #1e3a8a;
 
   /* Typography */
+  /***
+  1rem = 16px
+    1.5rem = 24px
+    2rem = 32px
+    0.5rem = 8px
+
+    20px = 16px + 4px = 1.25rem
+
+  */
   --font-family-base: Arial, Helvetica, sans-serif;
-  --font-size-h2: 24px;
-  --font-size-header-title: 20px;
-  --font-size-small: 12px;
-  --font-size-skill: 14px;
+  --font-size-h2: 1.5rem;
+  --font-size-small: 0.75rem;
+  --font-size-skill: 0.875rem;
 
   /* Spacing */
-  --space-xs: 4px;
+  /* --space-xs: 4px;
   --space-sm: 8px;
   --space-md: 10px;
   --space-lg: 12px;
   --space-xl: 16px;
   --space-2xl: 20px;
-  --space-3xl: 24px;
+  --space-3xl: 24px; */
+  /* Spacing */
+  --space-xs: 0.25rem; /* 4px */
+  --space-sm: 0.5rem; /* 8px */
+  --space-md: 0.625rem; /* 10px */
+  --space-lg: 0.75rem; /* 12px */
+  --space-xl: 1rem; /* 16px */
+  --space-2xl: 1.25rem; /* 20px */
+  --space-3xl: 1.5rem; /* 24px */
 
   /* Radius */
   --radius-sm: 4px;
@@ -46,6 +76,7 @@
   /* Layout */
   --main-max-width: 900px;
   --avatar-size: 150px;
+  --grid-columns: 3;
 }
 
 body {
@@ -109,6 +140,7 @@ nav a {
 }
 
 main {
+  width: 90%;
   max-width: var(--main-max-width);
   margin: var(--space-3xl) auto;
   padding: 0 var(--space-xl);
@@ -159,7 +191,7 @@ button {
   margin-top: var(--space-xl);
   padding: var(--space-md) var(--space-xl);
   border: none;
-  background-color: var(color-primary);
+  background-color: var(--color-primary);
   color: var(--color-text-light);
   cursor: pointer;
   border-radius: var(--radius-sm);
@@ -237,9 +269,11 @@ nav {
 }
 
 .about-avatar {
+  max-width: 100%;
+  height: auto;
   border-radius: var(--radius-full);
-  width: var(--avatar-size);
-  height: var(--avatar-size);
+  /* width: var(--avatar-size); */
+  /* height: var(--avatar-size); */
 }
 
 .skills-list {
@@ -258,13 +292,112 @@ nav {
   font-size: var(--font-size-skill);
 }
 
-.projects-grid {
+/* .projects-grid {
   display: grid;
   gap: var(--space-2xl);
   margin-top: var(--space-2xl);
   grid-template-columns: repeat(3, 1fr);
+} */
+.projects-grid {
+  display: grid;
+  gap: var(--space-2xl);
+  margin-top: var(--space-2xl);
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
 }
 
 .projects-grid .project-card {
   flex: 1;
 }
+
+h2 {
+  font-size: var(--font-size-h2);
+}
+
+/* .hero {
+  height: 100vh;
+} */
+
+/* @media (max-width: 768px) {
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+} */
+
+/*  Base css: 
+ grid-template-columns: repeat(3, 1fr);
+
+*/
+
+/* when screen size is 768px or less - mobile */
+/* @media(max-width:768px){
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+
+} */
+
+/** 
+NMobile first - base - small devices - 320px to 480px
+Tablet - 481px to 768px
+Desktop - 769px to 1024px
+
+*/
+/* .project-grid{
+     grid-template-columns: 1fr;
+}
+
+@media(min-width:768px){
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+} */
+
+/** =========== Tablets: 1024px and below */
+@media (max-width: 1024px) {
+  :root {
+    --grid-columns: 2;
+  }
+  /* .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  } */
+}
+
+/** =======mMobile; 768px and below */
+@media (max-width: 768px) {
+  :root {
+    --grid-columns: 1;
+  }
+  /* .projects-grid {
+    grid-template-columns: 1fr;
+  } */
+  .about-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  h2 {
+    text-align: center;
+  }
+  .site-header {
+    flex-direction: column;
+    gap: var(--space-xs);
+    text-align: center;
+  }
+  .skills-list {
+    justify-content: center;
+  }
+  main {
+    padding: 0 var(--space-xs);
+  }
+}
+
+/**
+
+500px
+
+bg - red
+
+max-width:1024px -triggered - blue
+
+max-width: 768pox - triggered -green
+
+*/
