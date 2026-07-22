@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Event Object Demo</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 40px;
+        transition: background-color 0.3s;
+      }
+      button {
+        padding: 10px 20px;
+        margin: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+        border-radius: 4px;
+        color: white;
+      }
+      #red {
+        background-color: red;
+      }
+      #green {
+        background-color: green;
+      }
+      #blue {
+        background-color: blue;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Click a color button</h2>
+    <button id="red" data-color="red">Red</button>
+    <button id="green" data-color="green">Green</button>
+    <button id="blue" data-color="blue">Blue</button>
+    <script>
+      const redBtn = document.querySelector("#red");
+
+      red.addEventListener("click", function (event) {
+        // document.body.style.backgroundColor = "red";
+        // console.log(event);
+        console.log("You clicked on:", event.target);
+        console.log("You clicked current target:", event.currentTarget);
+        console.log("tag name", event.target.tagName);
+        console.log("text", event.target.textContent);
+      });
+
+      const buttons = document.querySelectorAll("button");
+      buttons.forEach(function (btn) {
+        btn.addEventListener("click", function (event) {
+          const color = event.target.dataset.color;
+          console.log(color);
+          document.body.style.backgroundColor = color;
+        });
+      });
+      //   document.querySelector("#blue").addEventListener("click", function () {
+      //     document.body.style.backgroundColor = "blue";
+      //   });
+      //   document.querySelector("#green").addEventListener("click", function () {
+      //     document.body.style.backgroundColor = "green";
+      //   });
+    </script>
+  </body>
+</html>

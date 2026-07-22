@@ -132,7 +132,7 @@ console.log(outer);
 let name = "Global";
 
 function greet() {
-  console.log(`Hello, ${name}`);
+  console.log(`Hello, ${name}`); // lexical scoping
 }
 
 function wrapper() {

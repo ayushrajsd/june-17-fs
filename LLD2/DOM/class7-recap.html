@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- <button
+      onclick="
+        doFirst();
+        doSecond();
+      "
+    >
+      Click Me ( Inline)
+    </button> -->
+    <button id="myButton">Click Me</button>
+    <script>
+      const button = document.querySelector("#myButton");
+
+      button.addEventListener("click", function () {
+        console.log("event was clicked");
+      });
+      button.addEventListener("click", function () {
+        console.log("second handler");
+      });
+
+      function doFirst() {
+        console.log("First thing");
+      }
+
+      function doSecond() {
+        console.log("Second thing");
+      }
+      // const heading = document.querySelector('h1')
+      // const items = document.querySelector('.item')
+      // const main = document.getElementById('main')
+
+      // // create element
+      // const p = document.createElement('p')
+      // p.textContent = 'New content';
+      // document.body.appendChild(p)
+
+      // // class manipulation
+      // element.classList.add('active')
+      // element.classList.remove('active')
+      // element.classList.toggle('active')
+    </script>
+  </body>
+</html>

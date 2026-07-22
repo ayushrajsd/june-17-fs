@@ -44,6 +44,7 @@
 //             result.superCool.push(item.name);
 //         }
 //     })
+// return result
 // }
 
 const encode3 = createEncoder(3);

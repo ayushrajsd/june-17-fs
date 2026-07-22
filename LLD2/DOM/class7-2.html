@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+  <head>
+    <title>preventDefault Demo</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 40px;
+      }
+      a {
+        font-size: 18px;
+        color: blue;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>preventDefault Demo</h2>
+
+    <a href="https://www.google.com" id="myLink">Go to Google</a>
+
+    <br /><br />
+
+    <form id="myForm">
+      <input type="text" placeholder="Type something..." />
+      <button type="submit">Submit</button>
+    </form>
+
+    <p id="output"></p>
+    <script>
+      const link = document.querySelector("#myLink");
+      const form = document.querySelector("#myForm");
+
+      link.addEventListener("click", function (event) {
+        event.preventDefault();
+        console.log("link click intercepted, no navigation");
+
+        document.querySelector("#output").textContent =
+          "Link was clicked, but we stayed on the page";
+      });
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        console.log("form submission intercepted");
+
+        document.querySelector("#output").textContent =
+          "form was submitted but the pafe did not reload";
+      });
+    </script>
+  </body>
+</html>
