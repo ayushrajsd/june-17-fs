@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Demo</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        display: grid;
+        place-items: center;
+        font-family: Arial, sans-serif;
+        color: #1f2937;
+        background: #f3f4f6;
+      }
+
+      #outer {
+        width: min(90%, 420px);
+        padding: 24px;
+        font-size: 18px;
+        font-weight: 600;
+        background: #dbeafe;
+        border: 2px solid #60a5fa;
+        border-radius: 12px;
+      }
+
+      #card {
+        margin-top: 16px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #ffffff;
+        border: 1px solid #bfdbfe;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
+      }
+
+      #deleteButton {
+        padding: 9px 14px;
+        color: #ffffff;
+        background: #dc2626;
+        border: 0;
+        border-radius: 6px;
+        font: inherit;
+        font-size: 14px;
+        cursor: pointer;
+      }
+
+      #deleteButton:hover {
+        background: #b91c1c;
+      }
+
+      #deleteButton:focus-visible {
+        outline: 3px solid #fca5a5;
+        outline-offset: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="outer">
+      Outer
+      <div id="card">
+        Card
+        <button id="deleteButton">Delete</button>
+      </div>
+    </div>
+    <script>
+      const outer = document.querySelector("#outer");
+      const card = document.querySelector("#card");
+      const button = document.querySelector("#deleteButton");
+
+      outer.addEventListener("click", function () {
+        console.log("Outer");
+      });
+
+      card.addEventListener("click", function () {
+        console.log("Card");
+      });
+
+      button.addEventListener("click", function () {
+        console.log("Button");
+      });
+
+      outer.addEventListener(
+        "click",
+        function () {
+          console.log("Outer");
+        },
+        { capture: true },
+      );
+
+      card.addEventListener(
+        "click",
+        function () {
+          console.log("Card");
+        },
+        { capture: true },
+      );
+    </script>
+  </body>
+</html>

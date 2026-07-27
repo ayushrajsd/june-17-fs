@@ -1,0 +1,148 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Movie Filter</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: sans-serif;
+        padding: 40px;
+        background-color: #f5f5f5;
+      }
+      h1 {
+        margin-bottom: 20px;
+      }
+      #searchInput {
+        padding: 10px 15px;
+        width: 300px;
+        font-size: 16px;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        margin-bottom: 20px;
+      }
+      #movieList {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .movie-card {
+        background: white;
+        padding: 15px 20px;
+        border-radius: 6px;
+        font-size: 18px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      }
+      .delete-btn {
+        background: #e74c3c;
+        color: white;
+        border: none;
+        padding: 2px 4px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+      .delete-btn:hover {
+        background: #c0392b;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Movie Browser</h1>
+    <input type="text" id="searchInput" placeholder="Search movies..." />
+
+    <div id="movieList">
+      <div class="movie-card">
+        <span class="movie-title">The Dark Knight</span>
+        <button class="delete-btn">X</button>
+      </div>
+      <div class="movie-card">
+        <span class="movie-title">Inception</span>
+        <button class="delete-btn">X</button>
+      </div>
+      <div class="movie-card">
+        <span class="movie-title">Interstellar</span>
+        <button class="delete-btn">X</button>
+      </div>
+      <div class="movie-card">
+        <span class="movie-title">The Matrix</span>
+        <button class="delete-btn">X</button>
+      </div>
+      <div class="movie-card">
+        <span class="movie-title">Pulp Fiction</span>
+        <button class="delete-btn">X</button>
+      </div>
+      <div class="movie-card">
+        <span class="movie-title">The Godfather</span>
+        <button class="delete-btn">X</button>
+      </div>
+      <div class="movie-card">
+        <span class="movie-title">Fight Club</span>
+        <button class="delete-btn">X</button>
+      </div>
+      <div class="movie-card">
+        <span class="movie-title">Forrest Gump</span>
+        <button class="delete-btn">X</button>
+      </div>
+      <div class="movie-card">
+        <span class="movie-title">The Shawshank Redemption</span>
+        <button class="delete-btn">X</button>
+      </div>
+      <div class="movie-card">
+        <span class="movie-title">Gladiator</span>
+        <button class="delete-btn">X</button>
+      </div>
+      <div class="movie-card">
+        <span class="movie-title">The Prestige</span>
+        <button class="delete-btn"><span class="icon">X</span></button>
+      </div>
+    </div>
+
+    <script>
+      const input = document.querySelector("#searchInput");
+      const movieCards = document.querySelectorAll(".movie-card");
+
+      input.addEventListener("keyup", function () {
+        const searchTerm = input.value.toLowerCase();
+
+        movieCards.forEach(function (card) {
+          const title = card.textContent.toLowerCase();
+
+          if (title.includes(searchTerm)) {
+            card.style.display = "block";
+          } else {
+            card.style.display = "none";
+          }
+        });
+      });
+
+      const deleteButtons = document.querySelectorAll(".delete-btn");
+      // deleteButtons.forEach(function (btn) {
+      //   btn.addEventListener("click", function (event) {
+      //     const card = event.target.parentElement;
+      //     card.remove();
+      //   });
+      // });
+
+      const movieList = document.querySelector("#movieList");
+
+      movieList.addEventListener("click", function (event) {
+        console.log("click detected on movie list");
+        console.log("actual element clicked:", event.target);
+        console.log("Listener attached to:", event.currentTarget);
+        // if (event.target.classList.contains("delete-btn")) {
+        //   const card = event.target.parentElement;
+        //   card.remove();
+        // }
+        const deleteBtn = event.target.closest(".delete-btn");
+        if (deleteBtn) {
+          const card = deleteBtn.closest(".movie-card");
+          card.remove();
+        }
+      });
+    </script>
+  </body>
+</html>
