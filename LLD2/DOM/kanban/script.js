@@ -39,3 +39,30 @@ modalInput.addEventListener("keyup", function (event) {
     modalInput.value = "";
   }
 });
+
+// const colorBoxes = document.querySelectorAll('.color-box');
+// colorBoxes.forEach(function(box){
+//     box.addEventListener('click', function(){
+//         selectedColor = box.dataset.color;
+//     })
+// })
+
+// === COLOR SELECTION === ( EVENT DELEGATION)
+let activeColorBox = document.querySelector(".color-pink");
+activeColorBox.classList.add("active");
+
+toolBox.addEventListener("click", function (event) {
+  // get the target button
+  // add guard claude
+  const clickedElement = event.target;
+  if (!clickedElement.classList.contains("color-box")) {
+    return;
+  }
+  // remove active from default
+  activeColorBox.classList.remove("active");
+  // update selected color and active element
+  selectedColor = clickedElement.dataset.color;
+  // add the active class
+  activeColorBox = clickedElement;
+  activeColorBox.classList.add("active");
+});
