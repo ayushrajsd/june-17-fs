@@ -112,3 +112,7 @@ body {
 .show-all-btn:hover {
   background-color: #e0e0e0;
 }
+
+.color-box.active {
+  border: 3px solid white;
+}
