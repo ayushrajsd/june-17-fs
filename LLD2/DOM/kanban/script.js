@@ -26,7 +26,7 @@ addBtn.addEventListener("click", function () {
 modalInput.addEventListener("keyup", function (event) {
   //   console.log(event.key);
   if (event.key === "Enter") {
-    debugger;
+    event.preventDefault();
     const taskText = modalInput.value.trim();
     if (taskText === "") {
       alert("Please enter a task description");
