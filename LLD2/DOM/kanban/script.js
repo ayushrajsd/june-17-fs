@@ -3,9 +3,10 @@ const modal = document.querySelector(".modal");
 const modalInput = document.querySelector(".modal-input");
 const ticketContainer = document.querySelector(".ticket-container");
 const toolBox = document.querySelector(".toolbox");
+let ticketsArr = [];
 
 // === STATE ====
-let selectedColor = "ff6b6b";
+let selectedColor = "#ff6b6b";
 
 // === Modal toggling ===
 let isModalOpen = false;
@@ -42,10 +43,17 @@ function createTicket(taskText, color) {
   lock.classList.add("ticket-lock");
   lock.innerHTML = `<i class="fa-solid fa-lock-open"></i>`;
 
+  // remove button
+
+  const removeBtn = document.createElement("div");
+  removeBtn.classList.add("ticket-remove");
+  removeBtn.innerHTML = `<i class="fa-solid fa-xmark"></i>`;
+
   // assemble
   ticket.append(colorband);
   ticket.append(text);
   ticket.append(lock);
+  ticket.append(removeBtn);
 
   // add the ticket to the poage
   ticketContainer.appendChild(ticket);
@@ -114,6 +122,14 @@ modalInput.addEventListener("keyup", function (event) {
     console.log("Task: ", taskText);
     console.log("Priority color: ", selectedColor);
     // create the ticket
+    const id = createTicket(taskText, selectedColor);
+    ticketsArr.push({
+      id,
+      text: taskText,
+      color: selectedColor,
+      isLocked: false,
+    });
+
     modalInput.value = "";
   }
 });
@@ -143,4 +159,24 @@ toolBox.addEventListener("click", function (event) {
   // add the active class
   activeColorBox = clickedElement;
   activeColorBox.classList.add("active");
+});
+
+ticketContainer.addEventListener("click", function (event) {
+  const clickedElement = event.target;
+  const removeBtn = clickedElement.closest(".ticket-remove");
+
+  if (!removeBtn) {
+    return; // ignore clicks anywhere else
+  }
+  // find the parent
+  const ticket = removeBtn.closest(".ticket");
+  const ticketId = ticket.getAttribute("data-id");
+
+  // remove the ticket from the array
+  ticketsArr = ticketsArr.filter(function (ticket) {
+    return ticket.id !== ticketId;
+  });
+
+  // remove the dom
+  ticket.remove();
 });
