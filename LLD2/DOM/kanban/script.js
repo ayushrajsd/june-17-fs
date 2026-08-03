@@ -37,6 +37,7 @@ function createTicket(taskText, color) {
   const text = document.createElement("div");
   text.classList.add("ticket-text");
   text.textContent = taskText;
+  text.setAttribute("contenteditable", "true");
 
   // 4. locl icon
   const lock = document.createElement("div");
@@ -163,20 +164,85 @@ toolBox.addEventListener("click", function (event) {
 
 ticketContainer.addEventListener("click", function (event) {
   const clickedElement = event.target;
+
+  // === HANDLE REMOVE ===
   const removeBtn = clickedElement.closest(".ticket-remove");
 
-  if (!removeBtn) {
-    return; // ignore clicks anywhere else
+  if (removeBtn) {
+    // return; // ignore clicks anywhere else
+    // find the parent
+    const ticket = removeBtn.closest(".ticket");
+    const ticketId = ticket.getAttribute("data-id");
+
+    // remove the ticket from the array
+    ticketsArr = ticketsArr.filter(function (ticket) {
+      return ticket.id !== ticketId;
+    });
+
+    // remove the dom
+    ticket.remove();
+    return;
   }
-  // find the parent
-  const ticket = removeBtn.closest(".ticket");
-  const ticketId = ticket.getAttribute("data-id");
 
-  // remove the ticket from the array
-  ticketsArr = ticketsArr.filter(function (ticket) {
-    return ticket.id !== ticketId;
-  });
+  // === HANDLE LOCK TOGGLE
+  const lockBtn = clickedElement.closest(".ticket-lock");
+  if (lockBtn) {
+    const ticket = lockBtn.closest(".ticket");
+    const ticketId = ticket.getAttribute("data-id");
+    const textElement = ticket.querySelector(".ticket-text");
+    const icon = lockBtn.querySelector("i");
 
-  // remove the dom
-  ticket.remove();
+    // find the ticket data
+    const ticketData = ticketsArr.find(function (tkt) {
+      return tkt.id === ticketId;
+    });
+
+    if (!ticketData) {
+      return;
+    }
+
+    // toggle the locked state in the array
+    ticketData.isLocked = !ticketData.isLocked;
+
+    if (ticketData.isLocked) {
+      // true
+      // make the content editing false
+      textElement.setAttribute("contenteditable", "false");
+      // change the icon to locked icon
+      icon.classList.remove("fa-lock-open");
+      icon.classList.add("fa-lock");
+    } else {
+      // set the editing top true
+      // set the icon to be unlocked
+      textElement.setAttribute("contenteditable", "true");
+      // change the icon to locked icon
+      icon.classList.remove("fa-lock");
+      icon.classList.add("fa-lock-open");
+    }
+  }
 });
+
+ticketContainer.addEventListener(
+  "blur",
+  function (event) {
+    // handle the edited ticket text here
+    // console.log("target", event.target);
+    // console.log(" current target", event.currentTarget);
+    const editedElement = event.target;
+    if (!editedElement.classList.contains("ticket-text")) {
+      return;
+    }
+    const ticket = editedElement.closest(".ticket");
+    const ticketId = ticket.getAttribute("data-id");
+    const newText = editedElement.textContent.trim();
+
+    // update the data array
+    const ticketData = ticketsArr.find(function (tkt) {
+      return tkt.id === ticketId;
+    });
+    if (ticketData) {
+      ticketData.text = newText;
+    }
+  },
+  true,
+);

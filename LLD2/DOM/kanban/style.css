@@ -138,6 +138,11 @@ body {
   font-size: 14px;
   word-wrap: break-word;
   color: white;
+  outline: none;
+}
+
+.ticket-text[contenteditable="false"] {
+  opacity: 0.6;
 }
 
 .ticket-lock {
