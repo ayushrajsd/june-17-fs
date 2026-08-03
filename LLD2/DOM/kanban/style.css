@@ -130,6 +130,7 @@ body {
 .ticket-color-band {
   width: 8px;
   flex-shrink: 0;
+  cursor: pointer;
 }
 
 .ticket-text {

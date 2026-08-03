@@ -4,6 +4,7 @@ const modalInput = document.querySelector(".modal-input");
 const ticketContainer = document.querySelector(".ticket-container");
 const toolBox = document.querySelector(".toolbox");
 let ticketsArr = [];
+const COLORS = ["#ff6b6b", "#6bcbff", "#6bff9e", "#ffb86b"];
 
 // === STATE ====
 let selectedColor = "#ff6b6b";
@@ -19,30 +20,44 @@ function generateId() {
   return `ticket-${ticketCounter}`;
 }
 
-function createTicket(taskText, color) {
-  const id = generateId();
+// === LOCAL STORAGE ===
+function saveToLocalStorage() {
+  localStorage.setItem("kanban-tickets", JSON.stringify(ticketsArr));
+  localStorage.setItem("kanban-counter", ticketCounter.toString());
+}
 
+function renderTicket(ticketData) {
   // create the ticket container div
   const ticket = document.createElement("div");
   ticket.classList.add("ticket");
-  ticket.setAttribute("data-id", id);
+  ticket.setAttribute("data-id", ticketData.id);
   //   ticket.dataset.id = id;
 
   // 2. create the ticker color band
   const colorband = document.createElement("div");
   colorband.classList.add("ticket-color-band");
-  colorband.style.backgroundColor = color;
+  colorband.style.backgroundColor = ticketData.color;
 
   // 3. text area
   const text = document.createElement("div");
   text.classList.add("ticket-text");
-  text.textContent = taskText;
-  text.setAttribute("contenteditable", "true");
+  text.textContent = ticketData.text;
+
+  // set the contenteditable based on locl state
+  if (ticketData.isLocked) {
+    text.setAttribute("contenteditable", "false");
+  } else {
+    text.setAttribute("contenteditable", "true");
+  }
 
   // 4. locl icon
   const lock = document.createElement("div");
   lock.classList.add("ticket-lock");
-  lock.innerHTML = `<i class="fa-solid fa-lock-open"></i>`;
+  if (ticketData.isLocked) {
+    lock.innerHTML = `<i class="fa-solid fa-lock"></i>`;
+  } else {
+    lock.innerHTML = `<i class="fa-solid fa-lock-open"></i>`;
+  }
 
   // remove button
 
@@ -58,7 +73,34 @@ function createTicket(taskText, color) {
 
   // add the ticket to the poage
   ticketContainer.appendChild(ticket);
-  return id;
+}
+
+function createTicket(taskText, color) {
+  const id = generateId();
+  const ticketData = {
+    id,
+    text: taskText,
+    color,
+    isLocked: false,
+  };
+  ticketsArr.push(ticketData);
+  renderTicket(ticketData);
+  saveToLocalStorage();
+  //   return id;
+}
+
+/// === load tickets on page load
+function loadFromLocalStorage() {
+  const savedtickets = localStorage.getItem("kanban-tickets");
+  const savedCounter = localStorage.getItem("kanban-counter");
+  if (savedtickets) {
+    ticketsArr = JSON.parse(savedtickets);
+    ticketsArr.forEach(function (ticketData) {
+      renderTicket(ticketData);
+    });
+  } else {
+    ticketsArr = [];
+  }
 }
 
 function createTicket2(taskText, color) {
@@ -123,13 +165,7 @@ modalInput.addEventListener("keyup", function (event) {
     console.log("Task: ", taskText);
     console.log("Priority color: ", selectedColor);
     // create the ticket
-    const id = createTicket(taskText, selectedColor);
-    ticketsArr.push({
-      id,
-      text: taskText,
-      color: selectedColor,
-      isLocked: false,
-    });
+    createTicket(taskText, selectedColor);
 
     modalInput.value = "";
   }
@@ -181,6 +217,7 @@ ticketContainer.addEventListener("click", function (event) {
 
     // remove the dom
     ticket.remove();
+    saveToLocalStorage();
     return;
   }
 
@@ -219,6 +256,37 @@ ticketContainer.addEventListener("click", function (event) {
       icon.classList.remove("fa-lock");
       icon.classList.add("fa-lock-open");
     }
+    saveToLocalStorage();
+    return;
+  }
+
+  // === HANDLE COLOR CYCLING ===
+  const colorBand = clickedElement.closest(".ticket-color-band");
+  if (colorBand) {
+    const ticket = colorBand.closest(".ticket");
+    const ticketId = ticket.getAttribute("data-id");
+
+    // find the ticket data
+    const ticketData = ticketsArr.find(function (tkt) {
+      return tkt.id === ticketId;
+    });
+
+    if (!ticketData) {
+      return;
+    }
+
+    // find the color index
+    const currentIndex = COLORS.indexOf(ticketData.color);
+
+    // calculate the next color index in the array
+    const nextIndex = (currentIndex + 1) % COLORS.length;
+
+    // update the data
+    ticketData.color = COLORS[nextIndex];
+    saveToLocalStorage();
+
+    // update the DOM
+    colorBand.style.backgroundColor = COLORS[nextIndex];
   }
 });
 
@@ -243,6 +311,10 @@ ticketContainer.addEventListener(
     if (ticketData) {
       ticketData.text = newText;
     }
+    saveToLocalStorage();
   },
   true,
 );
+
+// === INITIALIZATION ===
+loadFromLocalStorage();
