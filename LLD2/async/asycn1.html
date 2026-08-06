@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Freeze Demo</title>
+  </head>
+  <body>
+    <button id="btn">Click Me</button>
+    <p id="output">Waiting...</p>
+
+    <script>
+      document.getElementById("btn").addEventListener("click", function () {
+        document.getElementById("output").textContent = "Button clicked!";
+      });
+
+      // Simulate heavy work
+      //   let total = 0;
+      //   for (let i = 0; i < 3000000000; i++) {
+      //     total += i;
+      //   }
+      //   console.log("Heavy work done. Total:", total);
+      console.log("first");
+      setTimeout(function () {
+        console.log("second");
+      }, 2000); // does not guarantee that execution will happen in this time itself
+
+      console.log("third"); // 3s
+    </script>
+  </body>
+</html>
