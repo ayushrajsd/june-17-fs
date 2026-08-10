@@ -48,3 +48,12 @@ makeChai() // returns a promise
   .catch(function (error) {
     console.log("Something went wrong", error);
   });
+
+const chaiResult = await makeChai();
+console.log(chaiResult);
+
+const breadResult = await toastBread(chaiResult);
+console.log(breadResult);
+
+const breakfastResult = await serveBreakfast(breadResult);
+console.log(breakfastResult);
