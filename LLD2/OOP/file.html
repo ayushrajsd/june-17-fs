@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      "use strict";
+      console.log("Scenario 1");
+      console.log(this);
+
+      console.log("Scenario 2");
+      function exampleFunction() {
+        console.log(this); // undef
+      }
+      exampleFunction();
+
+      console.log("Scenario 3");
+      const obj = {
+        prop: "I am a property",
+        show: function () {
+          console.log(this.prop);
+        },
+      };
+      obj.show();
+
+      console.log("Scenario 4");
+      const obj2 = {
+        prop: "I am a property",
+        show: function () {
+          console.log("1", this.prop);
+          function inner() {
+            console.log("this", this);
+            console.log("2", this.prop);
+          }
+          inner();
+        },
+      };
+      obj2.show();
+    </script>
+  </body>
+</html>
