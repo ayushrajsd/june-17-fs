@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module">
+      import React from "https://esm.sh/react@19/?dev";
+      import { createRoot } from "https://esm.sh/react-dom@19/client?dev";
+
+      window.React = React;
+      window.createRoot = createRoot;
+    </script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script type="text/babel">
+      const element = (
+        <div>
+          <h1>Welcome</h1>
+          <p>This is a paragraph</p>
+        </div>
+      );
+      const name = "React";
+      const element2 = <h1>Hello, {name} ! </h1>;
+
+      // function components
+      function Greeting(props) {
+        return (
+          <>
+            <h1>Hello, {props.name}</h1>
+            <p>World</p>
+          </>
+        );
+      }
+
+      function UserStatus({ isLoggedIn, userName }) {
+        debugger;
+        // userName, isLoggedIn
+        // const { isLoggedIn, userName } = props;
+        return (
+          <h2 style={{ color: isLoggedIn ? "green" : "red" }}>
+            {isLoggedIn ? `Welcome , ${userName}` : "Please Log In"}
+          </h2>
+        );
+      }
+
+      const root = createRoot(document.getElementById("root"));
+
+      //   root.render(<Greeting name="asdsad" age="10" />);
+      root.render(
+        <div>
+          <UserStatus isLoggedIn={false} userName="Mr.X" />
+          <UserStatus isLoggedIn={true} userName="Mr.India" />
+        </div>,
+      );
+    </script>
+  </body>
+</html>

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module">
+      import React from "https://esm.sh/react@19/?dev";
+      import { createRoot } from "https://esm.sh/react-dom@19/client?dev";
+
+      console.log("react", React);
+      console.log("create root", createRoot);
+
+      const heading = React.createElement(
+        "h1",
+        {
+          id: "title",
+          className: "main-heading",
+          style: { color: "blue", fontSize: "24px" },
+        },
+        "Hello, World",
+      );
+      console.log(heading);
+      const element = React.createElement(
+        "div",
+        null,
+        React.createElement("h1", null, "Welcome"),
+        React.createElement("p", null, "This is a paragraph"),
+      );
+
+      const root = createRoot(document.getElementById("root"));
+
+      root.render(element);
+      /**
+       *
+       * JSX - Javascript XML - syntactic extension to write React component  look like html
+       * <div>
+       * <h1 id="Aasd">Welcome</h1>
+       * <p>asdasd</p>
+       *
+       * JSX -> JS function calls ( React.createElement )
+       * traspile my JSX to JS -> Babel
+       * <h1>Hello, World </h1> - JSX => React.createElement("h1",null,"Hello, world")
+       * */
+    </script>
+  </body>
+</html>
